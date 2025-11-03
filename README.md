@@ -35,12 +35,16 @@ A clean, modern portfolio website showcasing my projects and skills as a Full St
 \`\`\`bash
 
 # Clone the repository
+<<<<<<< HEAD
 
 git clone https://github.com/bry-ly/minimalist-portfolio.git
 
 # Navigate to the project directory
 
 cd minimalist-portfolio
+=======
+git clone https://github.com/bry-ly/minimalist-portfolio.git
+>>>>>>> d4e1214f33a838c6af2c2c35cca89423d7b7f672
 
 # Install dependencies
 
