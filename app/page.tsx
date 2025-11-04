@@ -3,17 +3,25 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import { TechIcons, SocialIcons } from "@/components/tech-icons";
+import { TechIcons, SocialIcons } from "@/components/comp/tech-icons";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Field, FieldGroup, FieldLabel, FieldSet } from "@/components/ui/field";
+import { toast } from "sonner";
 
 export default function Home() {
   const [isDark, setIsDark] = useState(true);
   const [activeSection, setActiveSection] = useState("");
   const sectionsRef = useRef<(HTMLElement | null)[]>([]);
+
+  // Contact form state
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    message: "",
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", isDark);
@@ -41,6 +49,52 @@ export default function Home() {
 
   const toggleTheme = () => {
     setIsDark(!isDark);
+  };
+
+  // Handle form input changes
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { id, value } = e.target;
+    setFormData((prev) => ({ ...prev, [id]: value }));
+  };
+
+  // Handle form submission
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    try {
+      const response = await fetch("/api/send", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        toast.success("Message sent successfully!", {
+          description:
+            "Thank you for reaching out. I'll get back to you within 24hours.",
+        });
+        // Reset form
+        setFormData({ name: "", email: "", message: "" });
+      } else {
+        toast.error("Failed to send message", {
+          description: result.error || "Please try again later.",
+        });
+      }
+    } catch (error) {
+      console.error("Error sending message:", error);
+      toast.error("Failed to send message", {
+        description: "Please try again later or contact me directly via email.",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -509,7 +563,7 @@ export default function Home() {
               {/* Contact Form */}
               <form
                 className="flex w-full flex-col"
-                onSubmit={(e) => e.preventDefault()}
+                onSubmit={handleSubmit}
                 aria-label="Contact form"
               >
                 <FieldSet>
@@ -520,8 +574,11 @@ export default function Home() {
                       <Input
                         id="name"
                         placeholder="Your name"
+                        value={formData.name}
+                        onChange={handleInputChange}
                         required
                         aria-required="true"
+                        disabled={isSubmitting}
                       />
                     </Field>
 
@@ -532,8 +589,11 @@ export default function Home() {
                         id="email"
                         placeholder="your.email@example.com"
                         type="email"
+                        value={formData.email}
+                        onChange={handleInputChange}
                         required
                         aria-required="true"
+                        disabled={isSubmitting}
                       />
                     </Field>
 
@@ -544,14 +604,21 @@ export default function Home() {
                         id="message"
                         placeholder="Tell me about your project or just say hi..."
                         className="min-h-[120px]"
+                        value={formData.message}
+                        onChange={handleInputChange}
                         required
                         aria-required="true"
+                        disabled={isSubmitting}
                       />
                     </Field>
                     {/* Submit Button */}
                     <Field>
-                      <Button type="submit" className="w-full">
-                        Send message
+                      <Button
+                        type="submit"
+                        className="w-full"
+                        disabled={isSubmitting}
+                      >
+                        {isSubmitting ? "Sending..." : "Send message"}
                       </Button>
                     </Field>
                   </FieldGroup>
