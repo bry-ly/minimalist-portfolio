@@ -101,24 +101,22 @@ export default function Home() {
     <div className="min-h-screen bg-background text-foreground relative">
       <nav className="fixed left-8 top-1/2 -translate-y-1/2 z-10 hidden lg:block">
         <div className="flex flex-col gap-4">
-          {["intro", "work", "thoughts", "connect", "contact"].map(
-            (section) => (
-              <button
-                key={section}
-                onClick={() =>
-                  document
-                    .getElementById(section)
-                    ?.scrollIntoView({ behavior: "smooth" })
-                }
-                className={`w-2 h-8 rounded-full transition-all duration-500 ${
-                  activeSection === section
-                    ? "bg-foreground"
-                    : "bg-muted-foreground/30 hover:bg-muted-foreground/60"
-                }`}
-                aria-label={`Navigate to ${section}`}
-              />
-            )
-          )}
+          {["intro", "work", "gallery", "connect", "contact"].map((section) => (
+            <button
+              key={section}
+              onClick={() =>
+                document
+                  .getElementById(section)
+                  ?.scrollIntoView({ behavior: "smooth" })
+              }
+              className={`w-2 h-8 rounded-full transition-all duration-500 ${
+                activeSection === section
+                  ? "bg-foreground"
+                  : "bg-muted-foreground/30 hover:bg-muted-foreground/60"
+              }`}
+              aria-label={`Navigate to ${section}`}
+            />
+          ))}
         </div>
       </nav>
 
@@ -133,8 +131,8 @@ export default function Home() {
           <div className="grid lg:grid-cols-5 gap-12 sm:gap-16 w-full">
             <div className="lg:col-span-3 space-y-6 sm:space-y-8">
               <div className="space-y-6">
-                <div className="flex items-start gap-6">
-                  <div className="relative w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden ring-2 ring-border/50 flex-shrink-0 mt-10">
+                <div className="flex items-center gap-6">
+                  <div className="relative w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden ring-2 ring-border/50 flex-shrink-0">
                     <Image
                       src="/bryan.jpg"
                       alt="Bryan Palay"
@@ -143,8 +141,8 @@ export default function Home() {
                       priority
                     />
                   </div>
-                  <div className="space-y-3 sm:space-y-2 pt-2">
-                    <h1 className="text-4xl sm:text-5xl lg:text-6xl font-light tracking-tight mt-5">
+                  <div className="space-y-3 sm:space-y-2">
+                    <h1 className="text-4xl sm:text-5xl lg:text-6xl font-light tracking-tight">
                       Bryan
                       <br />
                       <span className="text-muted-foreground">Palay</span>
@@ -164,10 +162,10 @@ export default function Home() {
 
                 <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 text-sm text-muted-foreground">
                   <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                    Available for work
+                    <div className="w-2 h-2 bg-green-600 rounded-full animate-pulse"></div>
+                    Available for work -
+                    <span className="text-foreground">Philippines</span>
                   </div>
-                  <div>Philippines</div>
                 </div>
               </div>
             </div>
@@ -242,26 +240,26 @@ export default function Home() {
                   company: "Personal Project",
                   description:
                     "A modern Inventory Management System built with Next.js, Prisma, Better Auth, and Shadcn UI. It provides a secure, scalable, and visually polished platform for managing products, categories, and stock.",
-                  tech: ["TypeScript", "Next.js", "Prisma", "Shadcn UI"],
-                  url: "https://github.com/bry-ly/tech-parts-inventory-system",
+                  tech: [
+                    "Next.js",
+                    "Prisma",
+                    "Shadcn UI",
+                    "Better Auth",
+                    "TypeScript",
+                  ],
+                  liveUrl: "https://techparts-pi.vercel.app/",
+                  githubUrl:
+                    "https://github.com/bry-ly/tech-parts-inventory-system",
                 },
                 {
                   year: "2025",
-                  role: "Serene Inn Guest House",
+                  role: "Amethyst Inn",
                   company: "Personal Project",
                   description:
                     "A guest house booking platform offering cozy rooms and warm hospitality. Perfect for travelers seeking comfort and relaxation with a clean, responsive interface.",
-                  tech: ["TypeScript", "React", "Next.js"],
-                  url: "https://github.com/bry-ly/Serene-Inn-Guest-House",
-                },
-                {
-                  year: "2025",
-                  role: "A+ Quiz System",
-                  company: "Personal Project",
-                  description:
-                    "A user-friendly assessment platform designed to make quizzes easier to create, manage, and evaluate. Provides automated scoring and flexible quiz management.",
-                  tech: ["TypeScript", "React", "Next.js"],
-                  url: "https://github.com/bry-ly/APlus-QuizSystem",
+                  tech: ["Next.js", "MongoDB", "Shadcn UI", "TypeScript"],
+                  liveUrl: "https://amethystinn.vercel.app/",
+                  githubUrl: "https://github.com/bry-ly/amethystinn",
                 },
                 {
                   year: "2025",
@@ -269,15 +267,13 @@ export default function Home() {
                   company: "Personal Project",
                   description:
                     "Dental Booking System for managing appointments and patient care with a modern, intuitive interface.",
-                  tech: ["TypeScript", "React", "Next.js"],
-                  url: "https://github.com/bry-ly/dental-u-care",
+                  tech: ["Next.js", "Better Auth", "Shadcn UI", "TypeScript"],
+                  liveUrl: "https://dental-u-care.vercel.app/",
+                  githubUrl: "https://github.com/bry-ly/dental-u-care",
                 },
               ].map((job, index) => (
-                <Link
+                <div
                   key={index}
-                  href={job.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
                   className="group grid lg:grid-cols-12 gap-4 sm:gap-8 py-6 sm:py-8 border-b border-border/50 hover:border-border transition-colors duration-500"
                 >
                   <div className="lg:col-span-2">
@@ -288,27 +284,56 @@ export default function Home() {
 
                   <div className="lg:col-span-6 space-y-3">
                     <div>
-                      <h3 className="text-lg sm:text-xl font-medium flex items-center gap-2">
+                      <h3 className="text-lg sm:text-xl font-medium">
                         {job.role}
-                        <svg
-                          className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
-                          />
-                        </svg>
                       </h3>
                       <div className="text-muted-foreground">{job.company}</div>
                     </div>
                     <p className="text-muted-foreground leading-relaxed max-w-lg">
                       {job.description}
                     </p>
+                    <div className="flex items-center gap-3 pt-2">
+                      {job.liveUrl && (
+                        <Link
+                          href={job.liveUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-2 px-3 py-1.5 text-xs font-medium bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors duration-300"
+                        >
+                          <svg
+                            className="w-3.5 h-3.5"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                            />
+                          </svg>
+                          Live Demo
+                        </Link>
+                      )}
+                      {job.githubUrl && (
+                        <Link
+                          href={job.githubUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-2 px-3 py-1.5 text-xs font-medium border border-border rounded-md hover:border-muted-foreground/50 hover:bg-accent transition-all duration-300"
+                        >
+                          <svg
+                            className="w-3.5 h-3.5"
+                            fill="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+                          </svg>
+                          GitHub
+                        </Link>
+                      )}
+                    </div>
                   </div>
 
                   <div className="lg:col-span-4 flex flex-wrap gap-2 lg:justify-end mt-2 lg:mt-0">
@@ -321,75 +346,68 @@ export default function Home() {
                       </span>
                     ))}
                   </div>
-                </Link>
+                </div>
               ))}
             </div>
           </div>
         </section>
 
         <section
-          id="thoughts"
+          id="gallery"
           ref={(el) => {
             sectionsRef.current[2] = el;
           }}
-          className="min-h-screen py-20 sm:py-32 opacity-0"
+          className="py-20 sm:py-32 opacity-0"
         >
           <div className="space-y-12 sm:space-y-16">
-            <h2 className="text-3xl sm:text-4xl font-light">Recent Thoughts</h2>
+            <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
+              <h2 className="text-3xl sm:text-4xl font-light">
+                Project Gallery
+              </h2>
+              <div className="text-sm text-muted-foreground font-mono">
+                FEATURED WORK
+              </div>
+            </div>
 
-            <div className="grid gap-6 sm:gap-8 lg:grid-cols-2">
+            <div className="grid gap-8 sm:gap-12 md:grid-cols-2 lg:grid-cols-3">
               {[
                 {
-                  title: "Building with Next.js and TypeScript",
-                  excerpt:
-                    "My journey learning modern web development with Next.js, TypeScript, and best practices for scalable applications.",
-                  date: "Sept 2025",
-                  readTime: "5 min",
+                  title: "Tech Parts",
+                  image: "/projects/techparts.png",
+                  url: "https://techparts-pi.vercel.app/",
                 },
                 {
-                  title: "Creating a Full-Stack Inventory System",
-                  excerpt:
-                    "Lessons learned from building a complete inventory management system with Prisma, Better Auth, and modern UI components.",
-                  date: "Nov 2025",
-                  readTime: "8 min",
+                  title: "Amethyst Inn",
+                  image: "/projects/amethsyt.png",
+                  url: "https://amethystinn.vercel.app/",
                 },
                 {
-                  title: "From Learning to Building",
-                  excerpt:
-                    "How I transitioned from learning React basics to building production-ready applications with real-world features.",
-                  date: "Nov 2025",
-                  readTime: "6 min",
+                  title: "Dental U-Care",
+                  image: "/projects/dental.png",
+                  url: "https://github.com/bry-ly/dental-u-care",
                 },
-                {
-                  title: "My Developer Journey",
-                  excerpt:
-                    "Still learning and making it better - reflections on continuous growth as a self-taught developer.",
-                  date: "Jan 2025",
-                  readTime: "4 min",
-                },
-              ].map((post, index) => (
-                <article
+              ].map((project, index) => (
+                <Link
                   key={index}
-                  className="group p-6 sm:p-8 border border-border rounded-lg hover:border-muted-foreground/50 transition-all duration-500 hover:shadow-lg cursor-pointer"
+                  href={project.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group relative overflow-hidden rounded-lg border border-border hover:border-muted-foreground/50 transition-all duration-500"
                 >
-                  <div className="space-y-4">
-                    <div className="flex items-center justify-between text-xs text-muted-foreground font-mono">
-                      <span>{post.date}</span>
-                      <span>{post.readTime}</span>
-                    </div>
-
-                    <h3 className="text-lg sm:text-xl font-medium group-hover:text-muted-foreground transition-colors duration-300">
-                      {post.title}
-                    </h3>
-
-                    <p className="text-muted-foreground leading-relaxed">
-                      {post.excerpt}
-                    </p>
-
-                    <div className="flex items-center gap-2 text-sm text-muted-foreground group-hover:text-foreground transition-colors duration-300">
-                      <span>Read more</span>
+                  <div className="relative aspect-video w-full overflow-hidden bg-muted">
+                    <Image
+                      src={project.image}
+                      alt={project.title}
+                      fill
+                      className="object-cover transition-transform duration-500 group-hover:scale-110"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-background/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  </div>
+                  <div className="p-4 sm:p-6">
+                    <h3 className="text-lg font-medium flex items-center gap-2 group-hover:text-muted-foreground transition-colors duration-300">
+                      {project.title}
                       <svg
-                        className="w-4 h-4 transform group-hover:translate-x-1 transition-transform duration-300"
+                        className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -398,12 +416,12 @@ export default function Home() {
                           strokeLinecap="round"
                           strokeLinejoin="round"
                           strokeWidth={2}
-                          d="M17 8l4 4m0 0l-4 4m4-4H3"
+                          d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
                         />
                       </svg>
-                    </div>
+                    </h3>
                   </div>
-                </article>
+                </Link>
               ))}
             </div>
           </div>
