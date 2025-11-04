@@ -4,6 +4,11 @@ import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { TechIcons, SocialIcons } from "@/components/tech-icons";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Field, FieldGroup, FieldLabel, FieldSet } from "@/components/ui/field";
 
 export default function Home() {
   const [isDark, setIsDark] = useState(true);
@@ -42,22 +47,24 @@ export default function Home() {
     <div className="min-h-screen bg-background text-foreground relative">
       <nav className="fixed left-8 top-1/2 -translate-y-1/2 z-10 hidden lg:block">
         <div className="flex flex-col gap-4">
-          {["intro", "work", "thoughts", "connect"].map((section) => (
-            <button
-              key={section}
-              onClick={() =>
-                document
-                  .getElementById(section)
-                  ?.scrollIntoView({ behavior: "smooth" })
-              }
-              className={`w-2 h-8 rounded-full transition-all duration-500 ${
-                activeSection === section
-                  ? "bg-foreground"
-                  : "bg-muted-foreground/30 hover:bg-muted-foreground/60"
-              }`}
-              aria-label={`Navigate to ${section}`}
-            />
-          ))}
+          {["intro", "work", "thoughts", "connect", "contact"].map(
+            (section) => (
+              <button
+                key={section}
+                onClick={() =>
+                  document
+                    .getElementById(section)
+                    ?.scrollIntoView({ behavior: "smooth" })
+                }
+                className={`w-2 h-8 rounded-full transition-all duration-500 ${
+                  activeSection === section
+                    ? "bg-foreground"
+                    : "bg-muted-foreground/30 hover:bg-muted-foreground/60"
+                }`}
+                aria-label={`Navigate to ${section}`}
+              />
+            )
+          )}
         </div>
       </nav>
 
@@ -83,10 +90,7 @@ export default function Home() {
                     />
                   </div>
                   <div className="space-y-3 sm:space-y-2 pt-2">
-                    <div className="text-sm text-muted-foreground font-mono tracking-wider">
-                      PORTFOLIO / 2025
-                    </div>
-                    <h1 className="text-4xl sm:text-5xl lg:text-6xl font-light tracking-tight">
+                    <h1 className="text-4xl sm:text-5xl lg:text-6xl font-light tracking-tight mt-5">
                       Bryan
                       <br />
                       <span className="text-muted-foreground">Palay</span>
@@ -141,6 +145,7 @@ export default function Home() {
                     { name: "TypeScript", icon: TechIcons.TypeScript },
                     { name: "JavaScript", icon: TechIcons.JavaScript },
                     { name: "HTML5", icon: TechIcons.HTML5 },
+                    { name: "Tailwind CSS", icon: TechIcons.TailwindCSS },
                     { name: "Prisma", icon: TechIcons.Prisma },
                     { name: "Shadcn UI", icon: TechIcons.Shadcn },
                   ].map((skill) => (
@@ -284,28 +289,28 @@ export default function Home() {
                   title: "Building with Next.js and TypeScript",
                   excerpt:
                     "My journey learning modern web development with Next.js, TypeScript, and best practices for scalable applications.",
-                  date: "Jan 2025",
+                  date: "Sept 2025",
                   readTime: "5 min",
                 },
                 {
                   title: "Creating a Full-Stack Inventory System",
                   excerpt:
                     "Lessons learned from building a complete inventory management system with Prisma, Better Auth, and modern UI components.",
-                  date: "Dec 2024",
+                  date: "Nov 2025",
                   readTime: "8 min",
                 },
                 {
                   title: "From Learning to Building",
                   excerpt:
                     "How I transitioned from learning React basics to building production-ready applications with real-world features.",
-                  date: "Nov 2024",
+                  date: "Nov 2025",
                   readTime: "6 min",
                 },
                 {
                   title: "My Developer Journey",
                   excerpt:
                     "Still learning and making it better - reflections on continuous growth as a self-taught developer.",
-                  date: "Oct 2024",
+                  date: "Jan 2025",
                   readTime: "4 min",
                 },
               ].map((post, index) => (
@@ -369,14 +374,24 @@ export default function Home() {
 
                 <div className="space-y-4">
                   <Link
-                    href="https://github.com/bry-ly"
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    href="mailto:bryanpalay119@gmail.com"
                     className="group inline-flex items-center gap-3 text-foreground hover:text-muted-foreground transition-colors duration-300 p-4 border border-border rounded-lg hover:border-muted-foreground/50"
                   >
-                    <TechIcons.GitHub className="w-6 h-6 group-hover:scale-110 transition-transform duration-300" />
+                    <svg
+                      className="w-6 h-6 group-hover:scale-110 transition-transform duration-300"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                      />
+                    </svg>
                     <span className="text-base sm:text-lg font-medium">
-                      github.com/bry-ly
+                      bryanpalay119@gmail.com
                     </span>
                     <svg
                       className="w-5 h-5 transform group-hover:translate-x-1 transition-transform duration-300 ml-auto"
@@ -401,7 +416,7 @@ export default function Home() {
                 ELSEWHERE
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="grid grid-cols-2 gap-4 lg:grid-cols-2 w-full lg:w-lg">
                 {[
                   {
                     name: "GitHub",
@@ -411,7 +426,7 @@ export default function Home() {
                   },
                   {
                     name: "Facebook",
-                    handle: "bryan.palay.35",
+                    handle: "Bryan Palay",
                     url: "https://facebook.com/bryan.palay.35",
                     icon: SocialIcons.Facebook,
                   },
@@ -433,22 +448,22 @@ export default function Home() {
                     href={social.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group p-4 border border-border rounded-lg hover:border-muted-foreground/50 transition-all duration-300 hover:shadow-sm"
+                    className="group p-6 border border-border rounded-xl hover:border-muted-foreground/50 transition-all duration-300 hover:shadow-lg"
                   >
-                    <div className="flex items-start gap-3">
-                      <div className="p-2 rounded-lg bg-accent/50 group-hover:bg-accent transition-colors duration-300">
-                        <social.icon className="w-5 h-5 group-hover:scale-110 transition-transform duration-300" />
+                    <div className="flex items-start gap-4">
+                      <div className="p-3 rounded-xl bg-accent/50 group-hover:bg-accent transition-colors duration-300">
+                        <social.icon className="w-6 h-6 group-hover:scale-110 transition-transform duration-300" />
                       </div>
-                      <div className="space-y-1 flex-1">
-                        <div className="text-foreground group-hover:text-muted-foreground transition-colors duration-300 font-medium">
+                      <div className="space-y-1.5 flex-1 min-w-0">
+                        <div className="text-foreground group-hover:text-muted-foreground transition-colors duration-300 font-medium text-base">
                           {social.name}
                         </div>
-                        <div className="text-sm text-muted-foreground">
+                        <div className="text-sm text-muted-foreground whitespace-nowrap">
                           {social.handle}
                         </div>
                       </div>
                       <svg
-                        className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex-shrink-0 mt-1"
+                        className="w-5 h-5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex-shrink-0 mt-1"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -467,6 +482,84 @@ export default function Home() {
             </div>
           </div>
         </section>
+        {/* Contact Form Section */}
+        <section
+          id="contact"
+          ref={(el) => {
+            sectionsRef.current[4] = el;
+          }}
+          className="py-20 sm:py-32 opacity-0"
+          aria-labelledby="contact-heading"
+        >
+          <div className="mx-auto max-w-xl">
+            <div className="flex flex-col items-center gap-10 md:gap-12">
+              {/* Section Title */}
+              <div className="mx-auto flex max-w-xl flex-col items-center text-center space-y-4">
+                <h2
+                  id="contact-heading"
+                  className="text-3xl sm:text-4xl font-light"
+                >
+                  Get in touch
+                </h2>
+                <p className="text-lg text-muted-foreground leading-relaxed">
+                  Have a project in mind or want to collaborate? Feel free to
+                  reach out! I typically respond within 24 hours.
+                </p>
+              </div>
+              {/* Contact Form */}
+              <form
+                className="flex w-full flex-col"
+                onSubmit={(e) => e.preventDefault()}
+                aria-label="Contact form"
+              >
+                <FieldSet>
+                  <FieldGroup>
+                    {/* Name Input */}
+                    <Field>
+                      <FieldLabel htmlFor="name">Name</FieldLabel>
+                      <Input
+                        id="name"
+                        placeholder="Your name"
+                        required
+                        aria-required="true"
+                      />
+                    </Field>
+
+                    {/* Email Input */}
+                    <Field>
+                      <FieldLabel htmlFor="email">Email</FieldLabel>
+                      <Input
+                        id="email"
+                        placeholder="your.email@example.com"
+                        type="email"
+                        required
+                        aria-required="true"
+                      />
+                    </Field>
+
+                    {/* Message Textarea */}
+                    <Field>
+                      <FieldLabel htmlFor="message">Message</FieldLabel>
+                      <Textarea
+                        id="message"
+                        placeholder="Tell me about your project or just say hi..."
+                        className="min-h-[120px]"
+                        required
+                        aria-required="true"
+                      />
+                    </Field>
+                    {/* Submit Button */}
+                    <Field>
+                      <Button type="submit" className="w-full">
+                        Send message
+                      </Button>
+                    </Field>
+                  </FieldGroup>
+                </FieldSet>
+              </form>
+            </div>
+          </div>
+        </section>
 
         <footer className="py-12 sm:py-16 border-t border-border">
           <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6 sm:gap-8">
@@ -475,7 +568,7 @@ export default function Home() {
                 © 2025 Bryan Palay. All rights reserved.
               </div>
               <div className="text-xs text-muted-foreground">
-                Built with Next.js & TypeScript
+                Built with Next.js & Tailwind CSS, TypeScript React
               </div>
             </div>
 
