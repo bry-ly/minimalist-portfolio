@@ -1,82 +1,68 @@
-'use client';
+"use client";
 
-import React, { useEffect, useRef } from 'react';
-import { TextEffect } from './text-effect';
-import { cn } from '@/lib/utils';
+import React, { useEffect, useRef } from "react";
+import { cn } from "@/lib/utils";
+
+interface Tech {
+  name: string;
+  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
+  color: string;
+}
 
 interface InfiniteTechSliderProps {
-  technologies: string[];
+  technologies: Tech[];
   className?: string;
   speed?: number;
-  direction?: 'left' | 'right';
+  direction?: "left" | "right";
 }
 
 export function InfiniteTechSlider({
   technologies,
   className,
-  speed = 20,
-  direction = 'left',
+  speed = 30,
+  direction = "left",
 }: InfiniteTechSliderProps) {
-  const scrollerRef = useRef<HTMLDivElement>(null);
-  const [isAnimating, setIsAnimating] = React.useState(false);
-
-  useEffect(() => {
-    if (!scrollerRef.current) return;
-
-    const scrollerContent = Array.from(scrollerRef.current.children);
-
-    // Duplicate items for seamless loop
-    scrollerContent.forEach((item) => {
-      const duplicatedItem = item.cloneNode(true) as HTMLElement;
-      if (scrollerRef.current) {
-        scrollerRef.current.appendChild(duplicatedItem);
-      }
-    });
-
-    setIsAnimating(true);
-  }, []);
+  const renderTechItem = (
+    tech: Tech,
+    index: number,
+    duplicate: boolean = false
+  ) => (
+    <div
+      key={duplicate ? `tech-duplicate-${index}` : `tech-${index}`}
+      className="flex-shrink-0 flex items-center gap-2 px-3 py-2"
+    >
+      <tech.icon className={`w-4 h-4 ${tech.color}`} />
+      <span className="text-xs font-medium text-foreground whitespace-nowrap">
+        {tech.name}
+      </span>
+    </div>
+  );
 
   return (
     <div
-      className={cn('w-full overflow-hidden mask-gradient', className)}
+      className={cn(
+        "w-full overflow-x-hidden overflow-y-visible touch-none pointer-events-none",
+        className
+      )}
       style={{
         maskImage:
-          'linear-gradient(to right, transparent, white 10%, white 90%, transparent)',
+          "linear-gradient(to right, transparent, white 10%, white 90%, transparent)",
         WebkitMaskImage:
-          'linear-gradient(to right, transparent, white 10%, white 90%, transparent)',
+          "linear-gradient(to right, transparent, white 10%, white 90%, transparent)",
       }}
     >
       <div
-        ref={scrollerRef}
         className={cn(
-          'flex gap-4 w-max',
-          isAnimating && direction === 'left' && 'animate-scroll-left',
-          isAnimating && direction === 'right' && 'animate-scroll-right'
+          "flex gap-6 flex-nowrap animate-infinite-scroll whitespace-nowrap will-change-transform"
         )}
-        style={
-          isAnimating
-            ? {
-                animationDuration: `${speed}s`,
-              }
-            : {}
-        }
+        style={{
+          animationDuration: `${speed}s`,
+          animationDirection: direction === "right" ? "reverse" : "normal",
+          width: "max-content",
+        }}
       >
-        {technologies.map((tech, index) => (
-          <div
-            key={`tech-${index}`}
-            className="flex-shrink-0 px-4 py-2 transition-all duration-300"
-          >
-            <TextEffect
-              per="char"
-              preset="fade-in-blur"
-              className="text-xs font-medium text-foreground whitespace-nowrap"
-              speedReveal={2}
-              speedSegment={0.8}
-            >
-              {tech}
-            </TextEffect>
-          </div>
-        ))}
+        {technologies.map((tech, index) => renderTechItem(tech, index, false))}
+        {technologies.map((tech, index) => renderTechItem(tech, index, true))}
       </div>
     </div>
   );
