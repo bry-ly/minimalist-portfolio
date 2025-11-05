@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Field, FieldGroup, FieldLabel, FieldSet } from "@/components/ui/field";
 import { toast } from "sonner";
+import { InfiniteTechSlider } from "@/components/ui/infinite-tech-slider";
 
 export default function Home() {
   const [isDark, setIsDark] = useState(true);
@@ -162,7 +163,7 @@ export default function Home() {
 
                 <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 text-sm text-muted-foreground">
                   <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 bg-green-600 rounded-full animate-pulse"></div>
+                    <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
                     Available for work -
                     <span className="text-foreground">Philippines</span>
                   </div>
@@ -188,24 +189,58 @@ export default function Home() {
 
               <div className="space-y-4">
                 <div className="text-sm text-muted-foreground font-mono">
-                  FOCUS
+                  TECH STACK
                 </div>
                 <div className="flex flex-wrap gap-2">
                   {[
-                    { name: "React", icon: TechIcons.React },
-                    { name: "Next.js", icon: TechIcons.NextJS },
-                    { name: "TypeScript", icon: TechIcons.TypeScript },
-                    { name: "JavaScript", icon: TechIcons.JavaScript },
-                    { name: "HTML5", icon: TechIcons.HTML5 },
-                    { name: "Tailwind CSS", icon: TechIcons.TailwindCSS },
-                    { name: "Prisma", icon: TechIcons.Prisma },
-                    { name: "Shadcn UI", icon: TechIcons.Shadcn },
+                    {
+                      name: "Next.js",
+                      icon: TechIcons.NextJS,
+                      color: "currentColor",
+                    },
+                    {
+                      name: "ExpressJS",
+                      icon: TechIcons.Express,
+                      color: "text-gray-400",
+                    },
+                    {
+                      name: "React",
+                      icon: TechIcons.React,
+                      color: "text-[#61DAFB]",
+                    },
+                    {
+                      name: "TypeScript",
+                      icon: TechIcons.TypeScript,
+                      color: "text-[#3178C6]",
+                    },
+                    {
+                      name: "JavaScript",
+                      icon: TechIcons.JavaScript,
+                      color: "text-[#F7DF1E]",
+                    },
+                    {
+                      name: "Tailwind CSS",
+                      icon: TechIcons.TailwindCSS,
+                      color: "text-[#06B6D4]",
+                    },
+                    {
+                      name: "MongoDB",
+                      icon: TechIcons.MongoDB,
+                      color: "text-[#47A248]",
+                    },
+                    {
+                      name: "Prisma",
+                      icon: TechIcons.Prisma,
+                      color: "text-[#2D3748]",
+                    },
                   ].map((skill) => (
                     <span
                       key={skill.name}
                       className="group px-3 py-1.5 text-xs border border-border rounded-full hover:border-muted-foreground/50 hover:bg-accent transition-all duration-300 flex items-center gap-2"
                     >
-                      <skill.icon className="w-3.5 h-3.5 group-hover:scale-110 transition-transform duration-300" />
+                      <skill.icon
+                        className={`w-3.5 h-3.5 group-hover:scale-110 transition-transform duration-300 ${skill.color}`}
+                      />
                       {skill.name}
                     </span>
                   ))}
@@ -236,16 +271,15 @@ export default function Home() {
               {[
                 {
                   year: "2025",
-                  role: "Tech Parts Inventory System",
+                  role: "Tech Parts",
                   company: "Personal Project",
                   description:
-                    "A modern Inventory Management System built with Next.js, Prisma, Better Auth, and Shadcn UI. It provides a secure, scalable, and visually polished platform for managing products, categories, and stock.",
+                    "A modern Inventory Management System built with Next.js, Prisma, PostgreSQL, Better Auth, and Shadcn UI. It provides a secure, scalable, and visually polished platform for managing products, categories, and stock.",
                   tech: [
-                    "Next.js",
-                    "Prisma",
-                    "Shadcn UI",
-                    "Better Auth",
-                    "TypeScript",
+                    { name: "Next.js", icon: TechIcons.NextJS },
+                    { name: "Prisma", icon: TechIcons.Prisma },
+                    { name: "Shadcn UI", icon: TechIcons.Shadcn },
+                    { name: "Better Auth", icon: TechIcons.BetterAuth },
                   ],
                   liveUrl: "https://techparts-pi.vercel.app/",
                   githubUrl:
@@ -257,7 +291,12 @@ export default function Home() {
                   company: "Personal Project",
                   description:
                     "A guest house booking platform offering cozy rooms and warm hospitality. Perfect for travelers seeking comfort and relaxation with a clean, responsive interface.",
-                  tech: ["Next.js", "MongoDB", "Shadcn UI", "TypeScript"],
+                  tech: [
+                    { name: "Next.js", icon: TechIcons.NextJS },
+                    { name: "MongoDB", icon: TechIcons.MongoDB },
+                    { name: "Shadcn UI", icon: TechIcons.Shadcn },
+                    { name: "Express JS", icon: TechIcons.Express },
+                  ],
                   liveUrl: "https://amethystinn.vercel.app/",
                   githubUrl: "https://github.com/bry-ly/amethystinn",
                 },
@@ -267,7 +306,12 @@ export default function Home() {
                   company: "Personal Project",
                   description:
                     "Dental Booking System for managing appointments and patient care with a modern, intuitive interface.",
-                  tech: ["Next.js", "Better Auth", "Shadcn UI", "TypeScript"],
+                  tech: [
+                    { name: "Next.js", icon: TechIcons.NextJS },
+                    { name: "Shadcn UI", icon: TechIcons.Shadcn },
+                    { name: "Prisma", icon: TechIcons.Prisma },
+                    { name: "MongoDB", icon: TechIcons.MongoDB },
+                  ],
                   liveUrl: "https://dental-u-care.vercel.app/",
                   githubUrl: "https://github.com/bry-ly/dental-u-care",
                 },
@@ -284,7 +328,7 @@ export default function Home() {
 
                   <div className="lg:col-span-6 space-y-3">
                     <div>
-                      <h3 className="text-lg sm:text-xl font-medium">
+                      <h3 className="text-lg sm:text-xl font-medium ">
                         {job.role}
                       </h3>
                       <div className="text-muted-foreground">{job.company}</div>
@@ -336,15 +380,45 @@ export default function Home() {
                     </div>
                   </div>
 
-                  <div className="lg:col-span-4 flex flex-wrap gap-2 lg:justify-end mt-2 lg:mt-0">
-                    {job.tech.map((tech) => (
-                      <span
-                        key={tech}
-                        className="px-2 py-1 text-xs text-muted-foreground rounded group-hover:border-muted-foreground/50 transition-colors duration-500"
-                      >
-                        {tech}
-                      </span>
-                    ))}
+                  <div className="lg:col-span-4 space-y-3 mt-2 lg:mt-0">
+                    <div className="flex flex-nowrap gap-2 lg:justify-end text-nowrap">
+                      {job.tech.map((tech) => {
+                        const getIconColor = (name: string) => {
+                          switch (name) {
+                            case "NextJS":
+                              return "currentColor";
+                            case "Prisma":
+                              return "text-[#2D3748]";
+                            case "PostgreSQL":
+                              return "text-[#336791]";
+                            case "Shadcn UI":
+                              return "text-foreground";
+                            case "Better Auth":
+                              return "text-yellow-500";
+                            case "MongoDB":
+                              return "text-[#47A248]";
+                            case "Express JS":
+                              return "text-gray-400";
+                            default:
+                              return "text-muted-foreground";
+                          }
+                        };
+
+                        return (
+                          <span
+                            key={tech.name}
+                            className="group/tech inline-flex items-center gap-1.5 px-2 py-1.5 text-xs text-muted-foreground transition-all duration-300"
+                          >
+                            <tech.icon
+                              className={`w-3.5 h-3.5 flex-shrink-0 ${getIconColor(
+                                tech.name
+                              )}`}
+                            />
+                            <span className="leading-none">{tech.name}</span>
+                          </span>
+                        );
+                      })}
+                    </div>
                   </div>
                 </div>
               ))}
@@ -501,12 +575,14 @@ export default function Home() {
                     handle: "Bryan Palay",
                     url: "https://facebook.com/bryan.palay.35",
                     icon: SocialIcons.Facebook,
+                    color: "text-[#1877F2]",
                   },
                   {
                     name: "Instagram",
                     handle: "@aokinyccc",
                     url: "https://instagram.com/aokinyccc",
                     icon: SocialIcons.Instagram,
+                    color: "text-[#E4405F]",
                   },
                   {
                     name: "X (Twitter)",
@@ -524,7 +600,9 @@ export default function Home() {
                   >
                     <div className="flex items-start gap-4">
                       <div className="p-3 rounded-xl bg-accent/50 group-hover:bg-accent transition-colors duration-300">
-                        <social.icon className="w-6 h-6 group-hover:scale-110 transition-transform duration-300" />
+                        <social.icon
+                          className={`w-6 h-6 group-hover:scale-110 transition-transform duration-300 ${social.color}`}
+                        />
                       </div>
                       <div className="space-y-1.5 flex-1 min-w-0">
                         <div className="text-foreground group-hover:text-muted-foreground transition-colors duration-300 font-medium text-base">
