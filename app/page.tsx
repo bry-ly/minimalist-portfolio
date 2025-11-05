@@ -99,7 +99,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-background text-foreground relative">
+    <div className="min-h-screen bg-background text-foreground relative overflow-x-hidden">
       <nav className="fixed left-8 top-1/2 -translate-y-1/2 z-10 hidden lg:block">
         <div className="flex flex-col gap-4">
           {["intro", "work", "gallery", "connect", "contact"].map((section) => (
@@ -189,19 +189,14 @@ export default function Home() {
 
               <div className="space-y-4">
                 <div className="text-sm text-muted-foreground font-mono">
-                  TECH STACK
+                  FOCUS
                 </div>
-                <div className="flex flex-wrap gap-2">
-                  {[
+                <InfiniteTechSlider
+                  technologies={[
                     {
                       name: "Next.js",
                       icon: TechIcons.NextJS,
                       color: "currentColor",
-                    },
-                    {
-                      name: "ExpressJS",
-                      icon: TechIcons.Express,
-                      color: "text-gray-400",
                     },
                     {
                       name: "React",
@@ -224,27 +219,55 @@ export default function Home() {
                       color: "text-[#06B6D4]",
                     },
                     {
-                      name: "MongoDB",
-                      icon: TechIcons.MongoDB,
-                      color: "text-[#47A248]",
+                      name: "Shadcn UI",
+                      icon: TechIcons.Shadcn,
+                      color: "text-foreground",
                     },
                     {
                       name: "Prisma",
                       icon: TechIcons.Prisma,
                       color: "text-[#2D3748]",
                     },
-                  ].map((skill) => (
-                    <span
-                      key={skill.name}
-                      className="group px-3 py-1.5 text-xs border border-border rounded-full hover:border-muted-foreground/50 hover:bg-accent transition-all duration-300 flex items-center gap-2"
-                    >
-                      <skill.icon
-                        className={`w-3.5 h-3.5 group-hover:scale-110 transition-transform duration-300 ${skill.color}`}
-                      />
-                      {skill.name}
-                    </span>
-                  ))}
-                </div>
+                    {
+                      name: "PostgreSQL",
+                      icon: TechIcons.PostgreSQL,
+                      color: "text-[#336791]",
+                    },
+                    {
+                      name: "MongoDB",
+                      icon: TechIcons.MongoDB,
+                      color: "text-[#47A248]",
+                    },
+                    {
+                      name: "Express.js",
+                      icon: TechIcons.Express,
+                      color: "text-gray-400",
+                    },
+                    {
+                      name: "Better Auth",
+                      icon: TechIcons.BetterAuth,
+                      color: "text-yellow-500",
+                    },
+                    {
+                      name: "HTML5",
+                      icon: TechIcons.HTML5,
+                      color: "text-[#E34F26]",
+                    },
+                    {
+                      name: "Git",
+                      icon: TechIcons.Git,
+                      color: "text-[#E34F26]",
+                    },
+                    {
+                      name: "NodeJs",
+                      icon: TechIcons.Node,
+                      color: "text-[#0DDB24]",
+                    },
+                  ]}
+                  speed={20}
+                  direction="left"
+                  className="py-2"
+                />
               </div>
             </div>
           </div>
@@ -277,28 +300,14 @@ export default function Home() {
                     "A modern Inventory Management System built with Next.js, Prisma, PostgreSQL, Better Auth, and Shadcn UI. It provides a secure, scalable, and visually polished platform for managing products, categories, and stock.",
                   tech: [
                     { name: "Next.js", icon: TechIcons.NextJS },
-                    { name: "Prisma", icon: TechIcons.Prisma },
                     { name: "Shadcn UI", icon: TechIcons.Shadcn },
                     { name: "Better Auth", icon: TechIcons.BetterAuth },
+                    { name: "Prisma", icon: TechIcons.Prisma },
+                    { name: "PostgreSQL", icon: TechIcons.PostgreSQL },
                   ],
                   liveUrl: "https://techparts-pi.vercel.app/",
                   githubUrl:
                     "https://github.com/bry-ly/tech-parts-inventory-system",
-                },
-                {
-                  year: "2025",
-                  role: "Amethyst Inn",
-                  company: "Personal Project",
-                  description:
-                    "A guest house booking platform offering cozy rooms and warm hospitality. Perfect for travelers seeking comfort and relaxation with a clean, responsive interface.",
-                  tech: [
-                    { name: "Next.js", icon: TechIcons.NextJS },
-                    { name: "MongoDB", icon: TechIcons.MongoDB },
-                    { name: "Shadcn UI", icon: TechIcons.Shadcn },
-                    { name: "Express JS", icon: TechIcons.Express },
-                  ],
-                  liveUrl: "https://amethystinn.vercel.app/",
-                  githubUrl: "https://github.com/bry-ly/amethystinn",
                 },
                 {
                   year: "2025",
@@ -309,11 +318,27 @@ export default function Home() {
                   tech: [
                     { name: "Next.js", icon: TechIcons.NextJS },
                     { name: "Shadcn UI", icon: TechIcons.Shadcn },
+                    { name: "Better Auth", icon: TechIcons.BetterAuth },
                     { name: "Prisma", icon: TechIcons.Prisma },
                     { name: "MongoDB", icon: TechIcons.MongoDB },
                   ],
                   liveUrl: "https://dental-u-care.vercel.app/",
                   githubUrl: "https://github.com/bry-ly/dental-u-care",
+                },
+                {
+                  year: "2025",
+                  role: "Amethyst Inn",
+                  company: "Personal Project",
+                  description:
+                    "A guest house booking platform offering cozy rooms and warm hospitality. Perfect for travelers seeking comfort and relaxation with a clean, responsive interface.",
+                  tech: [
+                    { name: "Next.js", icon: TechIcons.NextJS },
+                    { name: "Shadcn UI", icon: TechIcons.Shadcn },
+                    { name: "MongoDB", icon: TechIcons.MongoDB },
+                    { name: "Express JS", icon: TechIcons.Express },
+                  ],
+                  liveUrl: "https://amethystinn.vercel.app/",
+                  githubUrl: "https://github.com/bry-ly/amethystinn",
                 },
               ].map((job, index) => (
                 <div
@@ -380,12 +405,15 @@ export default function Home() {
                     </div>
                   </div>
 
-                  <div className="lg:col-span-4 space-y-3 mt-2 lg:mt-0">
-                    <div className="flex flex-nowrap gap-2 lg:justify-end text-nowrap">
-                      {job.tech.map((tech) => {
+                  <div className="lg:col-span-4 space-y-3 mt-2 lg:mt-0 overflow-hidden">
+                    <div className="text-xs text-muted-foreground font-mono mb-2">
+                      TECH USED
+                    </div>
+                    <InfiniteTechSlider
+                      technologies={job.tech.map((tech) => {
                         const getIconColor = (name: string) => {
                           switch (name) {
-                            case "NextJS":
+                            case "Next.js":
                               return "currentColor";
                             case "Prisma":
                               return "text-[#2D3748]";
@@ -404,21 +432,15 @@ export default function Home() {
                           }
                         };
 
-                        return (
-                          <span
-                            key={tech.name}
-                            className="group/tech inline-flex items-center gap-1.5 px-2 py-1.5 text-xs text-muted-foreground transition-all duration-300"
-                          >
-                            <tech.icon
-                              className={`w-3.5 h-3.5 flex-shrink-0 ${getIconColor(
-                                tech.name
-                              )}`}
-                            />
-                            <span className="leading-none">{tech.name}</span>
-                          </span>
-                        );
+                        return {
+                          name: tech.name,
+                          icon: tech.icon,
+                          color: getIconColor(tech.name),
+                        };
                       })}
-                    </div>
+                      speed={15}
+                      direction="left"
+                    />
                   </div>
                 </div>
               ))}
@@ -723,16 +745,33 @@ export default function Home() {
             </div>
           </div>
         </section>
-
         <footer className="py-12 sm:py-16 border-t border-border">
           <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6 sm:gap-8">
-            <div className="space-y-2">
-              <div className="text-sm text-muted-foreground">
+            <div className="space-y-3">
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
                 © 2025 Bryan Palay. All rights reserved.
               </div>
-              <div className="text-xs text-muted-foreground">
-                Built with Next.js & Tailwind CSS, TypeScript React
+              <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                <span>Built with</span>
+                <TechIcons.NextJS className="w-3.5 h-3.5" />
+                <span>Next.js,</span>
+                <TechIcons.TailwindCSS className="w-3.5 h-3.5 text-sky-400" />
+                <span>Tailwind CSS,</span>
+                <TechIcons.TypeScript className="w-3.5 h-3.5 text-sky-600" />
+                <span>TypeScript &</span>
+                <TechIcons.React className="w-3.5 h-3.5 text-sky-500" />
+                <span>React</span>
               </div>
+              <Link
+                href="https://vercel.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 text-xs text-muted-foreground hover:text-foreground transition-colors duration-300"
+              >
+                <span>Deployed on</span>
+                <TechIcons.Vercel className="w-4 h-4" />
+                <span className="font-medium">Vercel</span>
+              </Link>
             </div>
 
             <div className="flex items-center gap-4">
