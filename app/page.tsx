@@ -10,6 +10,14 @@ import { Textarea } from "@/components/ui/textarea";
 import { Field, FieldGroup, FieldLabel, FieldSet } from "@/components/ui/field";
 import { toast } from "sonner";
 import { InfiniteTechSlider } from "@/components/ui/infinite-tech-slider";
+import { LiveActivity } from "@/components/comp/live-activity";
+import { UptimeTimer } from "@/components/comp/uptime-timer";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 export default function Home() {
   const [isDark, setIsDark] = useState(true);
@@ -102,22 +110,24 @@ export default function Home() {
     <div className="min-h-screen bg-background text-foreground relative overflow-x-hidden">
       <nav className="fixed left-8 top-1/2 -translate-y-1/2 z-10 hidden lg:block">
         <div className="flex flex-col gap-4">
-          {["intro", "work", "gallery", "connect", "contact"].map((section) => (
-            <button
-              key={section}
-              onClick={() =>
-                document
-                  .getElementById(section)
-                  ?.scrollIntoView({ behavior: "smooth" })
-              }
-              className={`w-2 h-8 rounded-full transition-all duration-500 ${
-                activeSection === section
-                  ? "bg-foreground"
-                  : "bg-muted-foreground/30 hover:bg-muted-foreground/60"
-              }`}
-              aria-label={`Navigate to ${section}`}
-            />
-          ))}
+          {["intro", "work", "gallery", "activity", "connect", "contact"].map(
+            (section) => (
+              <button
+                key={section}
+                onClick={() =>
+                  document
+                    .getElementById(section)
+                    ?.scrollIntoView({ behavior: "smooth" })
+                }
+                className={`w-2 h-8 rounded-full transition-all duration-500 ${
+                  activeSection === section
+                    ? "bg-foreground"
+                    : "bg-muted-foreground/30 hover:bg-muted-foreground/60"
+                }`}
+                aria-label={`Navigate to ${section}`}
+              />
+            )
+          )}
         </div>
       </nav>
 
@@ -524,9 +534,19 @@ export default function Home() {
         </section>
 
         <section
-          id="connect"
+          id="activity"
           ref={(el) => {
             sectionsRef.current[3] = el;
+          }}
+          className="py-20 sm:py-32 opacity-0"
+        >
+          <LiveActivity />
+        </section>
+
+        <section
+          id="connect"
+          ref={(el) => {
+            sectionsRef.current[4] = el;
           }}
           className="py-20 sm:py-32 opacity-0"
         >
@@ -658,7 +678,7 @@ export default function Home() {
         <section
           id="contact"
           ref={(el) => {
-            sectionsRef.current[4] = el;
+            sectionsRef.current[5] = el;
           }}
           className="py-20 sm:py-32 opacity-0"
           aria-labelledby="contact-heading"
@@ -745,81 +765,142 @@ export default function Home() {
             </div>
           </div>
         </section>
-        <footer className="py-12 sm:py-16 border-t border-border">
-          <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6 sm:gap-8">
-            <div className="space-y-3">
-              <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                © 2025 Bryan Palay. All rights reserved.
+        <footer className="py-10 sm:py-10 border-t border-border">
+          <TooltipProvider>
+            <div className="space-y-2">
+              {/* Uptime Timer Section */}
+              <div className="flex justify-center pb-6 border-b border-border/50">
+                <UptimeTimer />
               </div>
-              <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                <span>Built with</span>
-                <TechIcons.NextJS className="w-3.5 h-3.5" />
-                <span>Next.js,</span>
-                <TechIcons.TailwindCSS className="w-3.5 h-3.5 text-sky-400" />
-                <span>Tailwind CSS,</span>
-                <TechIcons.TypeScript className="w-3.5 h-3.5 text-sky-600" />
-                <span>TypeScript &</span>
-                <TechIcons.React className="w-3.5 h-3.5 text-sky-500" />
-                <span>React</span>
+
+              <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6 sm:gap-8">
+                <div className="space-y-3">
+                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                    © 2025 Bryan Palay. All rights reserved.
+                  </div>
+                  <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                    <span>Built with </span>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Link
+                          href="https://nextjs.org"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="hover:scale-110 transition-transform duration-200"
+                        >
+                          <TechIcons.NextJS className="w-3.5 h-3.5 text-sky-400" />
+                        </Link>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>Next.js</p>
+                      </TooltipContent>
+                    </Tooltip>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Link
+                          href="https://tailwindcss.com"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="hover:scale-110 transition-transform duration-200"
+                        >
+                          <TechIcons.TailwindCSS className="w-3.5 h-3.5 text-sky-400" />
+                        </Link>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>Tailwind CSS</p>
+                      </TooltipContent>
+                    </Tooltip>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Link
+                          href="https://www.typescriptlang.org/"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="hover:scale-110 transition-transform duration-200"
+                        >
+                          <TechIcons.TypeScript className="w-3.5 h-3.5 text-sky-600" />
+                        </Link>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>TypeScript</p>
+                      </TooltipContent>
+                    </Tooltip>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Link
+                          href="https://reactjs.org/"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="hover:scale-110 transition-transform duration-200"
+                        >
+                          <TechIcons.React className="w-3.5 h-3.5 text-sky-500" />
+                        </Link>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>React</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </div>
+                  <Link
+                    href="https://vercel.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 text-xs text-muted-foreground hover:text-foreground transition-colors duration-300"
+                  >
+                    <span>Deployed on</span>
+                    <TechIcons.Vercel className="w-4 h-4" />
+                    <span className="font-medium">Vercel</span>
+                  </Link>
+                </div>
+
+                <div className="flex items-center gap-4">
+                  <button
+                    onClick={toggleTheme}
+                    className="group p-3 rounded-lg border border-border hover:border-muted-foreground/50 transition-all duration-300"
+                    aria-label="Toggle theme"
+                  >
+                    {isDark ? (
+                      <svg
+                        className="w-4 h-4 text-muted-foreground group-hover:text-foreground transition-colors duration-300"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                    ) : (
+                      <svg
+                        className="w-4 h-4 text-muted-foreground group-hover:text-foreground transition-colors duration-300"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+                      </svg>
+                    )}
+                  </button>
+
+                  <button className="group p-3 rounded-lg border border-border hover:border-muted-foreground/50 transition-all duration-300">
+                    <svg
+                      className="w-4 h-4 text-muted-foreground group-hover:text-foreground transition-colors duration-300"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+                      />
+                    </svg>
+                  </button>
+                </div>
               </div>
-              <Link
-                href="https://vercel.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-xs text-muted-foreground hover:text-foreground transition-colors duration-300"
-              >
-                <span>Deployed on</span>
-                <TechIcons.Vercel className="w-4 h-4" />
-                <span className="font-medium">Vercel</span>
-              </Link>
             </div>
-
-            <div className="flex items-center gap-4">
-              <button
-                onClick={toggleTheme}
-                className="group p-3 rounded-lg border border-border hover:border-muted-foreground/50 transition-all duration-300"
-                aria-label="Toggle theme"
-              >
-                {isDark ? (
-                  <svg
-                    className="w-4 h-4 text-muted-foreground group-hover:text-foreground transition-colors duration-300"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                ) : (
-                  <svg
-                    className="w-4 h-4 text-muted-foreground group-hover:text-foreground transition-colors duration-300"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                  >
-                    <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
-                  </svg>
-                )}
-              </button>
-
-              <button className="group p-3 rounded-lg border border-border hover:border-muted-foreground/50 transition-all duration-300">
-                <svg
-                  className="w-4 h-4 text-muted-foreground group-hover:text-foreground transition-colors duration-300"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
-                  />
-                </svg>
-              </button>
-            </div>
-          </div>
+          </TooltipProvider>
         </footer>
       </main>
 
