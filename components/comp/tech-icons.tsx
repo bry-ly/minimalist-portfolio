@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 export const SocialIcons = {
   Facebook: (props: React.SVGProps<SVGSVGElement>) => (
     <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
@@ -28,12 +30,15 @@ export const TechIcons = {
     </svg>
   ),
   NextJS: (props: React.SVGProps<SVGSVGElement>) => (
-    <img
-      src="/nextjs-logo.png"
-      alt="Next.js"
-      style={{ width: "1.3em", height: "1.5em", objectFit: "contain" }}
-      {...(props as any)}
-    />
+    <span style={{ display: 'inline-flex', alignItems: 'center', width: '1.3em', height: '1.5em' }}>
+      <Image
+        src="/nextjs-logo.png"
+        alt="Next.js"
+        width={26}
+        height={30}
+        style={{ width: "100%", height: "100%", objectFit: "contain" }}
+      />
+    </span>
   ),
   TypeScript: (props: React.SVGProps<SVGSVGElement>) => (
     <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
@@ -56,12 +61,15 @@ export const TechIcons = {
     </svg>
   ),
   Shadcn: (props: React.SVGProps<SVGSVGElement>) => (
-    <img
-      src="/shadcn-logo.png"
-      alt="Shadcn UI"
-      style={{ width: "1em", height: "1.4em", objectFit: "contain" }}
-      {...(props as any)}
-    />
+    <span style={{ display: 'inline-flex', alignItems: 'center', width: '1em', height: '1.4em' }}>
+      <Image
+        src="/shadcn-logo.png"
+        alt="Shadcn UI"
+        width={20}
+        height={28}
+        style={{ width: "100%", height: "100%", objectFit: "contain" }}
+      />
+    </span>
   ),
   TailwindCSS: (props: React.SVGProps<SVGSVGElement>) => (
     <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
@@ -79,12 +87,15 @@ export const TechIcons = {
     </svg>
   ),
   PostgreSQL: (props: React.SVGProps<SVGSVGElement>) => (
-    <img
-      src="/postgresql-logo.png"
-      alt="PostgreSQL"
-      style={{ width: "1.3em", height: "1.5em", objectFit: "contain" }}
-      {...(props as any)}
-    />
+    <span style={{ display: 'inline-flex', alignItems: 'center', width: '1.3em', height: '1.5em' }}>
+      <Image
+        src="/postgresql-logo.png"
+        alt="PostgreSQL"
+        width={26}
+        height={30}
+        style={{ width: "100%", height: "100%", objectFit: "contain" }}
+      />
+    </span>
   ),
   Express: (props: React.SVGProps<SVGSVGElement>) => (
     <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
@@ -92,20 +103,26 @@ export const TechIcons = {
     </svg>
   ),
   BetterAuth: (props: React.SVGProps<SVGSVGElement>) => (
-    <img
-      src="/betterauth-logo.png"
-      alt="Better Auth"
-      style={{ width: "2em", height: "1.4em", objectFit: "contain" }}
-      {...(props as any)}
-    />
+    <span style={{ display: 'inline-flex', alignItems: 'center', width: '2em', height: '1.4em' }}>
+      <Image
+        src="/betterauth-logo.png"
+        alt="Better Auth"
+        width={40}
+        height={28}
+        style={{ width: "100%", height: "100%", objectFit: "contain" }}
+      />
+    </span>
   ),
   Node: (props: React.SVGProps<SVGSVGElement>) => (
-    <img
-      src="/nodejs-logo.png"
-      alt="Node.js"
-      style={{ width: "1.3em", height: "1.5em", objectFit: "contain" }}
-      {...(props as any)}
-    />
+    <span style={{ display: 'inline-flex', alignItems: 'center', width: '1.3em', height: '1.5em' }}>
+      <Image
+        src="/nodejs-logo.png"
+        alt="Node.js"
+        width={26}
+        height={30}
+        style={{ width: "100%", height: "100%", objectFit: "contain" }}
+      />
+    </span>
   ),
   Python: (props: React.SVGProps<SVGSVGElement>) => (
     <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
@@ -163,11 +180,14 @@ export const TechIcons = {
     </svg>
   ),
   Resend: (props: React.SVGProps<SVGSVGElement>) => (
-    <img
-      src="/resend.jpg"
-      alt="Resend"
-      style={{ width: "2em", height: "1.4em", objectFit: "contain" }}
-      {...(props as any)}
-    />
+    <span style={{ display: 'inline-flex', alignItems: 'center', width: '2em', height: '1.4em' }}>
+      <Image
+        src="/resend.jpg"
+        alt="Resend"
+        width={40}
+        height={28}
+        style={{ width: "100%", height: "100%", objectFit: "contain" }}
+      />
+    </span>
   ),
 };
