@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback, useMemo } from "react";
 import { TechIcons, SocialIcons } from "@/components/comp/tech-icons";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -18,6 +18,137 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+
+// Constants extracted outside component to avoid recreation on every render
+const SECTION_IDS = ["intro", "work", "gallery", "activity", "connect", "contact"] as const;
+
+const FOCUS_TECHNOLOGIES = [
+  { name: "Next.js", icon: TechIcons.NextJS, color: "currentColor" },
+  { name: "React", icon: TechIcons.React, color: "text-[#61DAFB]" },
+  { name: "TypeScript", icon: TechIcons.TypeScript, color: "text-[#3178C6]" },
+  { name: "JavaScript", icon: TechIcons.JavaScript, color: "text-[#F7DF1E]" },
+  { name: "Tailwind CSS", icon: TechIcons.TailwindCSS, color: "text-[#06B6D4]" },
+  { name: "Shadcn UI", icon: TechIcons.Shadcn, color: "text-foreground" },
+  { name: "Prisma", icon: TechIcons.Prisma, color: "text-[#2D3748]" },
+  { name: "PostgreSQL", icon: TechIcons.PostgreSQL, color: "text-[#336791]" },
+  { name: "MongoDB", icon: TechIcons.MongoDB, color: "text-[#47A248]" },
+  { name: "Express.js", icon: TechIcons.Express, color: "text-gray-400" },
+  { name: "Better Auth", icon: TechIcons.BetterAuth, color: "text-yellow-500" },
+  { name: "HTML5", icon: TechIcons.HTML5, color: "text-[#E34F26]" },
+  { name: "Git", icon: TechIcons.Git, color: "text-[#E34F26]" },
+  { name: "NodeJs", icon: TechIcons.Node, color: "text-[#0DDB24]" },
+] as const;
+
+// Helper function for icon colors
+const getIconColor = (name: string) => {
+  const colorMap: Record<string, string> = {
+    "Next.js": "currentColor",
+    "Prisma": "text-[#2D3748]",
+    "PostgreSQL": "text-[#336791]",
+    "Shadcn UI": "text-foreground",
+    "Better Auth": "text-yellow-500",
+    "MongoDB": "text-[#47A248]",
+    "Express JS": "text-gray-400",
+  };
+  return colorMap[name] || "text-muted-foreground";
+};
+
+const PROJECTS = [
+  {
+    year: "2025",
+    role: "Tech Parts",
+    company: "Personal Project",
+    description:
+      "A modern Inventory Management System built with Next.js, Prisma, PostgreSQL, Better Auth, and Shadcn UI. It provides a secure, scalable, and visually polished platform for managing products, categories, and stock.",
+    tech: [
+      { name: "Next.js", icon: TechIcons.NextJS },
+      { name: "Shadcn UI", icon: TechIcons.Shadcn },
+      { name: "Better Auth", icon: TechIcons.BetterAuth },
+      { name: "Prisma", icon: TechIcons.Prisma },
+      { name: "PostgreSQL", icon: TechIcons.PostgreSQL },
+    ],
+    liveUrl: "https://techparts-pi.vercel.app/",
+    githubUrl: "https://github.com/bry-ly/tech-parts-inventory-system",
+  },
+  {
+    year: "2025",
+    role: "Dental U-Care",
+    company: "Personal Project",
+    description:
+      "Dental Booking System for managing appointments and patient care with a modern, intuitive interface.",
+    tech: [
+      { name: "Next.js", icon: TechIcons.NextJS },
+      { name: "Shadcn UI", icon: TechIcons.Shadcn },
+      { name: "Better Auth", icon: TechIcons.BetterAuth },
+      { name: "Prisma", icon: TechIcons.Prisma },
+      { name: "MongoDB", icon: TechIcons.MongoDB },
+    ],
+    liveUrl: "https://dental-u-care.vercel.app/",
+    githubUrl: "https://github.com/bry-ly/dental-u-care",
+  },
+  {
+    year: "2025",
+    role: "Amethyst Inn",
+    company: "Personal Project",
+    description:
+      "A guest house booking platform offering cozy rooms and warm hospitality. Perfect for travelers seeking comfort and relaxation with a clean, responsive interface.",
+    tech: [
+      { name: "Next.js", icon: TechIcons.NextJS },
+      { name: "Shadcn UI", icon: TechIcons.Shadcn },
+      { name: "MongoDB", icon: TechIcons.MongoDB },
+      { name: "Express JS", icon: TechIcons.Express },
+    ],
+    liveUrl: "https://amethystinn.vercel.app/",
+    githubUrl: "https://github.com/bry-ly/amethystinn",
+  },
+] as const;
+
+const GALLERY_PROJECTS = [
+  {
+    title: "Tech Parts",
+    image: "/projects/techparts.png",
+    url: "https://techparts-pi.vercel.app/",
+  },
+  {
+    title: "Amethyst Inn",
+    image: "/projects/amethsyt.png",
+    url: "https://amethystinn.vercel.app/",
+  },
+  {
+    title: "Dental U-Care",
+    image: "/projects/dental.png",
+    url: "https://dental-u-care.vercel.app/",
+  },
+] as const;
+
+const SOCIAL_LINKS = [
+  {
+    name: "GitHub",
+    handle: "@bry-ly",
+    url: "https://github.com/bry-ly",
+    icon: TechIcons.GitHub,
+  },
+  {
+    name: "Facebook",
+    handle: "Bryan Palay",
+    url: "https://facebook.com/bryan.palay.35",
+    icon: SocialIcons.Facebook,
+    color: "text-[#1877F2]",
+  },
+  {
+    name: "Instagram",
+    handle: "@aokinyccc",
+    url: "https://instagram.com/aokinyccc",
+    icon: SocialIcons.Instagram,
+    color: "text-[#E4405F]",
+  },
+  {
+    name: "X (Twitter)",
+    handle: "@bry_ly28",
+    url: "https://x.com/bry_ly28",
+    icon: SocialIcons.Twitter,
+  },
+] as const;
 
 export default function Home() {
   const [isDark, setIsDark] = useState(true);
@@ -36,40 +167,50 @@ export default function Home() {
     document.documentElement.classList.toggle("dark", isDark);
   }, [isDark]);
 
+  // Memoize IntersectionObserver options to avoid recreating
+  const observerOptions = useMemo(
+    () => ({
+      threshold: 0.3,
+      rootMargin: "0px 0px -20% 0px",
+    }),
+    []
+  );
+
+  // Memoize observer callback
+  const observerCallback = useCallback((entries: IntersectionObserverEntry[]) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("animate-fade-in-up");
+        setActiveSection(entry.target.id);
+      }
+    });
+  }, []);
+
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("animate-fade-in-up");
-            setActiveSection(entry.target.id);
-          }
-        });
-      },
-      { threshold: 0.3, rootMargin: "0px 0px -20% 0px" }
-    );
+    const observer = new IntersectionObserver(observerCallback, observerOptions);
 
     sectionsRef.current.forEach((section) => {
       if (section) observer.observe(section);
     });
 
     return () => observer.disconnect();
+  }, [observerCallback, observerOptions]);
+
+  const toggleTheme = useCallback(() => {
+    setIsDark((prev) => !prev);
   }, []);
 
-  const toggleTheme = () => {
-    setIsDark(!isDark);
-  };
+  // Handle form input changes with useCallback to avoid recreation
+  const handleInputChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      const { id, value } = e.target;
+      setFormData((prev) => ({ ...prev, [id]: value }));
+    },
+    []
+  );
 
-  // Handle form input changes
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { id, value } = e.target;
-    setFormData((prev) => ({ ...prev, [id]: value }));
-  };
-
-  // Handle form submission
-  const handleSubmit = async (e: React.FormEvent) => {
+  // Handle form submission with useCallback
+  const handleSubmit = useCallback(async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
 
@@ -116,30 +257,29 @@ export default function Home() {
     } finally {
       setIsSubmitting(false);
     }
-  };
+  }, [formData]);
+
+  // Memoized scroll handler
+  const scrollToSection = useCallback((section: string) => {
+    document.getElementById(section)?.scrollIntoView({ behavior: "smooth" });
+  }, []);
 
   return (
     <div className="min-h-screen bg-background text-foreground relative overflow-x-hidden">
       <nav className="fixed left-8 top-1/2 -translate-y-1/2 z-10 hidden lg:block">
         <div className="flex flex-col gap-4">
-          {["intro", "work", "gallery", "activity", "connect", "contact"].map(
-            (section) => (
-              <button
-                key={section}
-                onClick={() =>
-                  document
-                    .getElementById(section)
-                    ?.scrollIntoView({ behavior: "smooth" })
-                }
-                className={`w-2 h-8 rounded-full transition-all duration-500 ${
-                  activeSection === section
-                    ? "bg-foreground"
-                    : "bg-muted-foreground/30 hover:bg-muted-foreground/60"
-                }`}
-                aria-label={`Navigate to ${section}`}
-              />
-            )
-          )}
+          {SECTION_IDS.map((section) => (
+            <button
+              key={section}
+              onClick={() => scrollToSection(section)}
+              className={`w-2 h-8 rounded-full transition-all duration-500 ${
+                activeSection === section
+                  ? "bg-foreground"
+                  : "bg-muted-foreground/30 hover:bg-muted-foreground/60"
+              }`}
+              aria-label={`Navigate to ${section}`}
+            />
+          ))}
         </div>
       </nav>
 
@@ -214,78 +354,7 @@ export default function Home() {
                   FOCUS
                 </div>
                 <InfiniteTechSlider
-                  technologies={[
-                    {
-                      name: "Next.js",
-                      icon: TechIcons.NextJS,
-                      color: "currentColor",
-                    },
-                    {
-                      name: "React",
-                      icon: TechIcons.React,
-                      color: "text-[#61DAFB]",
-                    },
-                    {
-                      name: "TypeScript",
-                      icon: TechIcons.TypeScript,
-                      color: "text-[#3178C6]",
-                    },
-                    {
-                      name: "JavaScript",
-                      icon: TechIcons.JavaScript,
-                      color: "text-[#F7DF1E]",
-                    },
-                    {
-                      name: "Tailwind CSS",
-                      icon: TechIcons.TailwindCSS,
-                      color: "text-[#06B6D4]",
-                    },
-                    {
-                      name: "Shadcn UI",
-                      icon: TechIcons.Shadcn,
-                      color: "text-foreground",
-                    },
-                    {
-                      name: "Prisma",
-                      icon: TechIcons.Prisma,
-                      color: "text-[#2D3748]",
-                    },
-                    {
-                      name: "PostgreSQL",
-                      icon: TechIcons.PostgreSQL,
-                      color: "text-[#336791]",
-                    },
-                    {
-                      name: "MongoDB",
-                      icon: TechIcons.MongoDB,
-                      color: "text-[#47A248]",
-                    },
-                    {
-                      name: "Express.js",
-                      icon: TechIcons.Express,
-                      color: "text-gray-400",
-                    },
-                    {
-                      name: "Better Auth",
-                      icon: TechIcons.BetterAuth,
-                      color: "text-yellow-500",
-                    },
-                    {
-                      name: "HTML5",
-                      icon: TechIcons.HTML5,
-                      color: "text-[#E34F26]",
-                    },
-                    {
-                      name: "Git",
-                      icon: TechIcons.Git,
-                      color: "text-[#E34F26]",
-                    },
-                    {
-                      name: "NodeJs",
-                      icon: TechIcons.Node,
-                      color: "text-[#0DDB24]",
-                    },
-                  ]}
+                  technologies={FOCUS_TECHNOLOGIES}
                   speed={20}
                   direction="left"
                   className="py-2"
@@ -313,56 +382,7 @@ export default function Home() {
             </div>
 
             <div className="space-y-8 sm:space-y-12">
-              {[
-                {
-                  year: "2025",
-                  role: "Tech Parts",
-                  company: "Personal Project",
-                  description:
-                    "A modern Inventory Management System built with Next.js, Prisma, PostgreSQL, Better Auth, and Shadcn UI. It provides a secure, scalable, and visually polished platform for managing products, categories, and stock.",
-                  tech: [
-                    { name: "Next.js", icon: TechIcons.NextJS },
-                    { name: "Shadcn UI", icon: TechIcons.Shadcn },
-                    { name: "Better Auth", icon: TechIcons.BetterAuth },
-                    { name: "Prisma", icon: TechIcons.Prisma },
-                    { name: "PostgreSQL", icon: TechIcons.PostgreSQL },
-                  ],
-                  liveUrl: "https://techparts-pi.vercel.app/",
-                  githubUrl:
-                    "https://github.com/bry-ly/tech-parts-inventory-system",
-                },
-                {
-                  year: "2025",
-                  role: "Dental U-Care",
-                  company: "Personal Project",
-                  description:
-                    "Dental Booking System for managing appointments and patient care with a modern, intuitive interface.",
-                  tech: [
-                    { name: "Next.js", icon: TechIcons.NextJS },
-                    { name: "Shadcn UI", icon: TechIcons.Shadcn },
-                    { name: "Better Auth", icon: TechIcons.BetterAuth },
-                    { name: "Prisma", icon: TechIcons.Prisma },
-                    { name: "MongoDB", icon: TechIcons.MongoDB },
-                  ],
-                  liveUrl: "https://dental-u-care.vercel.app/",
-                  githubUrl: "https://github.com/bry-ly/dental-u-care",
-                },
-                {
-                  year: "2025",
-                  role: "Amethyst Inn",
-                  company: "Personal Project",
-                  description:
-                    "A guest house booking platform offering cozy rooms and warm hospitality. Perfect for travelers seeking comfort and relaxation with a clean, responsive interface.",
-                  tech: [
-                    { name: "Next.js", icon: TechIcons.NextJS },
-                    { name: "Shadcn UI", icon: TechIcons.Shadcn },
-                    { name: "MongoDB", icon: TechIcons.MongoDB },
-                    { name: "Express JS", icon: TechIcons.Express },
-                  ],
-                  liveUrl: "https://amethystinn.vercel.app/",
-                  githubUrl: "https://github.com/bry-ly/amethystinn",
-                },
-              ].map((job, index) => (
+              {PROJECTS.map((job, index) => (
                 <div
                   key={index}
                   className="group grid lg:grid-cols-12 gap-4 sm:gap-8 py-6 sm:py-8 border-b border-border/50 hover:border-border transition-colors duration-500"
@@ -432,34 +452,11 @@ export default function Home() {
                       TECH USED
                     </div>
                     <InfiniteTechSlider
-                      technologies={job.tech.map((tech) => {
-                        const getIconColor = (name: string) => {
-                          switch (name) {
-                            case "Next.js":
-                              return "currentColor";
-                            case "Prisma":
-                              return "text-[#2D3748]";
-                            case "PostgreSQL":
-                              return "text-[#336791]";
-                            case "Shadcn UI":
-                              return "text-foreground";
-                            case "Better Auth":
-                              return "text-yellow-500";
-                            case "MongoDB":
-                              return "text-[#47A248]";
-                            case "Express JS":
-                              return "text-gray-400";
-                            default:
-                              return "text-muted-foreground";
-                          }
-                        };
-
-                        return {
-                          name: tech.name,
-                          icon: tech.icon,
-                          color: getIconColor(tech.name),
-                        };
-                      })}
+                      technologies={job.tech.map((tech) => ({
+                        name: tech.name,
+                        icon: tech.icon,
+                        color: getIconColor(tech.name),
+                      }))}
                       speed={15}
                       direction="left"
                     />
@@ -488,23 +485,7 @@ export default function Home() {
             </div>
 
             <div className="grid gap-8 sm:gap-12 md:grid-cols-2 lg:grid-cols-3">
-              {[
-                {
-                  title: "Tech Parts",
-                  image: "/projects/techparts.png",
-                  url: "https://techparts-pi.vercel.app/",
-                },
-                {
-                  title: "Amethyst Inn",
-                  image: "/projects/amethsyt.png",
-                  url: "https://amethystinn.vercel.app/",
-                },
-                {
-                  title: "Dental U-Care",
-                  image: "/projects/dental.png",
-                  url: "https://dental-u-care.vercel.app/",
-                },
-              ].map((project, index) => (
+              {GALLERY_PROJECTS.map((project, index) => (
                 <Link
                   key={index}
                   href={project.url}
@@ -617,34 +598,7 @@ export default function Home() {
               </div>
 
               <div className="grid grid-cols-2 gap-4 lg:grid-cols-2 w-full lg:w-lg">
-                {[
-                  {
-                    name: "GitHub",
-                    handle: "@bry-ly",
-                    url: "https://github.com/bry-ly",
-                    icon: TechIcons.GitHub,
-                  },
-                  {
-                    name: "Facebook",
-                    handle: "Bryan Palay",
-                    url: "https://facebook.com/bryan.palay.35",
-                    icon: SocialIcons.Facebook,
-                    color: "text-[#1877F2]",
-                  },
-                  {
-                    name: "Instagram",
-                    handle: "@aokinyccc",
-                    url: "https://instagram.com/aokinyccc",
-                    icon: SocialIcons.Instagram,
-                    color: "text-[#E4405F]",
-                  },
-                  {
-                    name: "X (Twitter)",
-                    handle: "@bry_ly28",
-                    url: "https://x.com/bry_ly28",
-                    icon: SocialIcons.Twitter,
-                  },
-                ].map((social) => (
+                {SOCIAL_LINKS.map((social) => (
                   <Link
                     key={social.name}
                     href={social.url}
@@ -655,7 +609,7 @@ export default function Home() {
                     <div className="flex items-start gap-4">
                       <div className="p-3 rounded-xl bg-accent/50 group-hover:bg-accent transition-colors duration-300">
                         <social.icon
-                          className={`w-6 h-6 group-hover:scale-110 transition-transform duration-300 ${social.color}`}
+                          className={`w-6 h-6 group-hover:scale-110 transition-transform duration-300 ${social.color ?? ''}`}
                         />
                       </div>
                       <div className="space-y-1.5 flex-1 min-w-0">
