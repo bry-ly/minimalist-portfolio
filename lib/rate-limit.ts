@@ -8,6 +8,21 @@ interface RateLimitStore {
 // In-memory store for rate limiting (use Redis in production for distributed systems)
 const rateLimitStore = new Map<string, RateLimitStore>();
 
+// Periodic cleanup interval (run every 5 minutes)
+const CLEANUP_INTERVAL = 5 * 60 * 1000;
+let cleanupTimer: NodeJS.Timeout | null = null;
+
+// Start cleanup timer on first use
+function ensureCleanupTimer() {
+  if (!cleanupTimer) {
+    cleanupTimer = setInterval(cleanupExpiredEntries, CLEANUP_INTERVAL);
+    // Don't prevent Node.js from exiting
+    if (cleanupTimer.unref) {
+      cleanupTimer.unref();
+    }
+  }
+}
+
 interface RateLimitConfig {
   interval: number; // Time window in milliseconds
   uniqueTokenPerInterval: number; // Max requests per interval
@@ -53,10 +68,8 @@ export async function rateLimit(
   // Update store
   rateLimitStore.set(identifier, tokenCount);
 
-  // Clean up old entries periodically (simple cleanup)
-  if (Math.random() < 0.01) {
-    cleanupExpiredEntries();
-  }
+  // Ensure cleanup timer is running
+  ensureCleanupTimer();
 
   return {
     success,
