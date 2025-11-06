@@ -609,7 +609,7 @@ export default function Home() {
                     <div className="flex items-start gap-4">
                       <div className="p-3 rounded-xl bg-accent/50 group-hover:bg-accent transition-colors duration-300">
                         <social.icon
-                          className={`w-6 h-6 group-hover:scale-110 transition-transform duration-300 ${social.color || ''}`}
+                          className={`w-6 h-6 group-hover:scale-110 transition-transform duration-300 ${social.color ?? ''}`}
                         />
                       </div>
                       <div className="space-y-1.5 flex-1 min-w-0">

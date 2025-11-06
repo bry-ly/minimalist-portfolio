@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, useMemo, useCallback } from "react";
+import React from "react";
 
 // Website launch date - November 4, 2025
 const LAUNCH_DATE = new Date("2025-11-04T00:00:00Z");
@@ -69,7 +70,7 @@ export function UptimeTimer() {
 }
 
 // Memoized sub-component to prevent re-rendering of unchanged units
-const TimeUnit = ({ value, label }: { value: number; label: string }) => (
+const TimeUnit = React.memo(({ value, label }: { value: number; label: string }) => (
   <div className="flex flex-col items-center">
     <span className="text-foreground font-semibold text-sm">
       {formatNumber(value)}
@@ -78,4 +79,5 @@ const TimeUnit = ({ value, label }: { value: number; label: string }) => (
       {label}
     </span>
   </div>
-);
+));
+TimeUnit.displayName = "TimeUnit";

@@ -17,9 +17,7 @@ function ensureCleanupTimer() {
   if (!cleanupTimer) {
     cleanupTimer = setInterval(cleanupExpiredEntries, CLEANUP_INTERVAL);
     // Don't prevent Node.js from exiting
-    if (cleanupTimer.unref) {
-      cleanupTimer.unref();
-    }
+    cleanupTimer.unref();
   }
 }
 
