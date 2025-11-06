@@ -58,6 +58,13 @@ export function LiveActivity() {
         const response = await fetch("/api/activity", { cache: "no-store" });
 
         if (!response.ok) {
+          // Handle rate limit error specifically
+          if (response.status === 429) {
+            const errorData = await response.json();
+            throw new Error(
+              errorData.error || "Too many requests. Please try again later."
+            );
+          }
           throw new Error(`Request failed with ${response.status}`);
         }
 

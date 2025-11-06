@@ -92,9 +92,21 @@ export default function Home() {
         // Reset form
         setFormData({ name: "", email: "", message: "" });
       } else {
-        toast.error("Failed to send message", {
-          description: result.error || "Please try again later.",
-        });
+        // Handle rate limit error specifically
+        if (response.status === 429) {
+          const resetDate = result.reset
+            ? new Date(result.reset).toLocaleTimeString()
+            : "soon";
+          toast.error("Too many requests", {
+            description: `You've reached the limit of ${
+              result.limit || 5
+            } messages per hour. Please try again at ${resetDate}.`,
+          });
+        } else {
+          toast.error("Failed to send message", {
+            description: result.error || "Please try again later.",
+          });
+        }
       }
     } catch (error) {
       console.error("Error sending message:", error);

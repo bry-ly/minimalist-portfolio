@@ -2,10 +2,33 @@ import { EmailTemplate } from "@/components/email-template/email";
 import { ContactNotification } from "@/components/email-template/contact-notification";
 import { Resend } from "resend";
 import { NextRequest } from "next/server";
+import { rateLimit, createRateLimitHeaders } from "@/lib/rate-limit";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function POST(request: NextRequest) {
+  // Rate limiting: 5 emails per hour per IP
+  const rateLimitResult = await rateLimit(request, {
+    interval: 60 * 60 * 1000, // 1 hour
+    uniqueTokenPerInterval: 5,
+  });
+
+  // If rate limit exceeded, return 429 error
+  if (!rateLimitResult.success) {
+    return Response.json(
+      {
+        error: "Too many requests. Please try again later.",
+        limit: rateLimitResult.limit,
+        remaining: rateLimitResult.remaining,
+        reset: new Date(rateLimitResult.reset).toISOString(),
+      },
+      {
+        status: 429,
+        headers: createRateLimitHeaders(rateLimitResult),
+      }
+    );
+  }
+
   try {
     const body = await request.json();
     const { name, email, message } = body;
@@ -65,19 +88,36 @@ export async function POST(request: NextRequest) {
           message: "Auto-response sent, but notification failed",
           data: autoResponseData,
         },
-        { status: 200 }
+        {
+          status: 200,
+          headers: createRateLimitHeaders(rateLimitResult),
+        }
       );
     }
 
     console.log("Notification sent successfully:", notificationData);
 
-    return Response.json({
-      success: true,
-      message: "Email sent successfully",
-      data: { autoResponse: autoResponseData, notification: notificationData },
-    });
+    return Response.json(
+      {
+        success: true,
+        message: "Email sent successfully",
+        data: {
+          autoResponse: autoResponseData,
+          notification: notificationData,
+        },
+      },
+      {
+        headers: createRateLimitHeaders(rateLimitResult),
+      }
+    );
   } catch (error) {
     console.error("Email error:", error);
-    return Response.json({ error: "Failed to send email" }, { status: 500 });
+    return Response.json(
+      { error: "Failed to send email" },
+      {
+        status: 500,
+        headers: createRateLimitHeaders(rateLimitResult),
+      }
+    );
   }
 }
