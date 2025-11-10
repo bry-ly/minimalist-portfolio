@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect, useState, useMemo, type ReactNode } from "react";
 import Link from "next/link";
 
 import type { GithubActivity } from "@/lib/live-activity";
@@ -37,6 +37,47 @@ const INITIAL_STATE: ComponentState = {
 };
 
 const REFRESH_INTERVAL_MS = 60_000;
+
+// Memoized loading skeleton component
+const LoadingSkeleton = () => (
+  <div className="space-y-4 animate-pulse">
+    <div className="space-y-2">
+      <Skeleton className="h-4 w-3/4 rounded" />
+      <Skeleton className="h-6 w-24 rounded-full" />
+    </div>
+    <Skeleton className="h-12 w-full rounded" />
+    <div className="flex justify-between">
+      <Skeleton className="h-3 w-20 rounded" />
+      <Skeleton className="h-3 w-24 rounded" />
+    </div>
+  </div>
+);
+
+// Memoized empty state component
+const EmptyState = () => (
+  <div className="flex flex-col items-center justify-center py-12 text-center">
+    <div className="rounded-full bg-muted p-4 mb-4">
+      <svg
+        className="h-8 w-8 text-muted-foreground"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
+      </svg>
+    </div>
+    <p className="text-sm font-medium text-foreground mb-1">
+      No recent activity
+    </p>
+    <p className="text-xs text-muted-foreground max-w-[280px]">
+      Push something new to GitHub to see your latest commits appear here in
+      real-time.
+    </p>
+  </div>
+);
 
 export function LiveActivity() {
   const [{ github, errors, isLoading, isRefreshing, fetchedAt }, setState] =
@@ -106,49 +147,17 @@ export function LiveActivity() {
     };
   }, []);
 
-  let githubContent: ReactNode;
+  // Memoize github content to avoid recreating on every render
+  const githubContent: ReactNode = useMemo(() => {
+    if (isLoading) {
+      return <LoadingSkeleton />;
+    }
+    
+    if (!github) {
+      return <EmptyState />;
+    }
 
-  if (isLoading) {
-    githubContent = (
-      <div className="space-y-4 animate-pulse">
-        <div className="space-y-2">
-          <Skeleton className="h-4 w-3/4 rounded" />
-          <Skeleton className="h-6 w-24 rounded-full" />
-        </div>
-        <Skeleton className="h-12 w-full rounded" />
-        <div className="flex justify-between">
-          <Skeleton className="h-3 w-20 rounded" />
-          <Skeleton className="h-3 w-24 rounded" />
-        </div>
-      </div>
-    );
-  } else if (!github) {
-    githubContent = (
-      <div className="flex flex-col items-center justify-center py-12 text-center">
-        <div className="rounded-full bg-muted p-4 mb-4">
-          <svg
-            className="h-8 w-8 text-muted-foreground"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
-          </svg>
-        </div>
-        <p className="text-sm font-medium text-foreground mb-1">
-          No recent activity
-        </p>
-        <p className="text-xs text-muted-foreground max-w-[280px]">
-          Push something new to GitHub to see your latest commits appear here in
-          real-time.
-        </p>
-      </div>
-    );
-  } else {
-    githubContent = (
+    return (
       <div className="space-y-5">
         <div className="flex items-center gap-3">
           <div className="rounded-full bg-primary/10 p-2 flex-shrink-0">
@@ -243,7 +252,7 @@ export function LiveActivity() {
         </div>
       </div>
     );
-  }
+  }, [isLoading, github]);
 
   return (
     <div className="space-y-6 sm:space-y-8">
