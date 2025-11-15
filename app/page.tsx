@@ -101,6 +101,21 @@ const PROJECTS = [
     liveUrl: "https://amethystinn.vercel.app/",
     githubUrl: "https://github.com/bry-ly/amethystinn",
   },
+  {
+    year: "2025",
+    role: "A+ Quiz",
+    company: "Personal Project",
+    description:
+      "A quiz system for students to take quizzes and get their results. It is a simple quiz system that allows students to take quizzes and get their results.",
+    tech: [
+      { name: "Next.js", icon: TechIcons.NextJS },
+      { name: "Shadcn UI", icon: TechIcons.Shadcn },
+      { name: "Prisma", icon: TechIcons.Prisma },
+      { name: "PostgreSQL", icon: TechIcons.PostgreSQL },
+    ],
+    liveUrl: "https://a-plus-quiz.vercel.app/",
+    githubUrl: "https://github.com/bry-ly/APlus-QuizSystem",
+  },
 ] as const;
 
 const GALLERY_PROJECTS = [
@@ -119,6 +134,11 @@ const GALLERY_PROJECTS = [
     image: "/projects/dental.png",
     url: "https://dental-u-care.vercel.app/",
   },
+  {
+    title: "A+ Quiz",
+    image: "/projects/a-plus-quiz.png",
+    url: "https://a-plus-quiz.vercel.app/",
+  }
 ] as const;
 
 const SOCIAL_LINKS = [
