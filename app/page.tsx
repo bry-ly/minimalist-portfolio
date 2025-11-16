@@ -83,7 +83,7 @@ const PROJECTS = [
       { name: "Prisma", icon: TechIcons.Prisma },
       { name: "MongoDB", icon: TechIcons.MongoDB },
     ],
-    liveUrl: "https://dental-u-care.vercel.app/",
+    liveUrl: "https://www.dentalucare.tech/",
     githubUrl: "https://github.com/bry-ly/dental-u-care",
   },
   {
@@ -148,7 +148,7 @@ const GALLERY_PROJECTS = [
   {
     title: "Dental U-Care",
     image: "/projects/dental.png",
-    url: "https://dental-u-care.vercel.app/",
+    url: "https://www.dentalucare.tech/",
   },
   {
     title: "A+ Quiz",
